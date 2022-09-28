@@ -3,5 +3,5 @@ connectivity_policy {
 }
 
 versioning_strategy {
-    template = "#{Octopus.Version.LastMajor}.#{Octopus.Version.LastMinor}.#{Octopus.Version.NextPatch}"
+    template = "#{Octopus.Date.Year}.#{Octopus.Date.Month}.#{Octopus.Date.Day}.#{if Octopus.Date.Day==Octopus.Version.LastPatch}#{Octopus.Version.NextRevision}#{else}#{if Octopus.Version.LastRevision!=0}0#{else}#{Octopus.Version.NextRevision}#{/if}#{/if}"
 }
