@@ -1,0 +1,17 @@
+variable "Project.Website.Url" {
+    value "http://octopusdemo-dev.com" {
+        environment = ["development"]
+    }
+
+    value "http://octopusdemo-test.com" {
+        environment = ["test"]
+    }
+
+    value "http://octopusdemo-staging.com" {
+        environment = ["staging"]
+    }
+
+    value "http://octopusdemo.com" {
+        environment = ["production"]
+    }
+}
