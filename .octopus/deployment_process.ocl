@@ -1,7 +1,49 @@
-step "hello-world-using-powershell" {
-    name = "Hello world (using PowerShell)"
+step "perform-tentacle-health-check" {
+    name = "Perform Tentacle Health Check"
+    properties = {
+        Octopus.Action.TargetRoles = "windows-web-server"
+    }
 
     action {
+        action_type = "Octopus.HealthCheck"
+        properties = {
+            Octopus.Action.HealthCheck.ErrorHandling = "TreatExceptionsAsErrors"
+            Octopus.Action.HealthCheck.IncludeMachinesInDeployment = "DoNotAlterMachines"
+            Octopus.Action.HealthCheck.Type = "FullHealthCheck"
+        }
+    }
+}
+
+step "deploy-a-package" {
+    name = "Deploy a Package"
+    properties = {
+        Octopus.Action.TargetRoles = "windows-web-server"
+    }
+
+    action {
+        action_type = "Octopus.TentaclePackage"
+        properties = {
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "TestPackageEarth"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "TestPackageEarth"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "hello-world-using-powershell" {
+    name = "Run A Script"
+
+    action "run-a-script" {
         action_type = "Octopus.Script"
         is_required = true
         properties = {
